@@ -1,0 +1,4 @@
+interface:
+  display_name: "Junliai 图片生成"
+  short_description: "使用 firefly-gpt-image-2 生成和编辑图片"
+  default_prompt: "使用 $imagegen-junliai 通过 Junliai API 生成一张符合要求的图片。"
