@@ -1,11 +1,19 @@
 ---
 name: imagegen-junliai
-description: 通过 img.junliai.org 的 OpenAI 兼容接口生成或编辑位图图片，默认优先使用 firefly-gpt-image-2 模型。适用于文生图、产品原型图、UI 效果图、海报、插画、参考图改图和多图融合；当用户要求使用 Junliai、image2、img.junliai.org 或 firefly-gpt-image-2 画图时使用此技能。
+description: 通过 img.junliai.org 的 OpenAI 兼容接口生成或编辑位图图片，默认优先使用 firefly-gpt-image-2 模型。适用于文生图、产品原型图、UI 效果图、海报、插画、参考图改图和多图融合；当用户要求使用 Junliai、image2、img.junliai.org 或 firefly-gpt-image-2 画图时使用此技能。触发后必须只使用 Junliai，不得调用宿主内置 imagegen、image_gen 或其他图片生成服务。
 ---
 
 # Junliai 图片生成
 
 使用随技能附带的脚本调用 Junliai 图片接口。每位使用者必须提供自己的 API Key，不得在技能文件、命令示例、日志或 Git 提交中写入真实 Key。
+
+## 提供商约束
+
+- 本技能一旦被显式或隐式触发，必须通过 `scripts/junliai_image.py` 调用 Junliai。
+- 禁止调用宿主内置的 `imagegen` 技能、`image_gen` 工具或任何其他图片生成、编辑服务。
+- 允许使用本地图片查看工具检查输出，但不得用这些工具生成、补绘或修改图片。
+- 如果 Key 缺失、余额不足、模型不可用或接口失败，立即报告具体问题，不得静默回退到其他提供商。
+- 只有用户明确取消使用本技能并指定其他图片服务后，才能改用其他提供商。
 
 ## 准备
 
@@ -21,7 +29,7 @@ export JUNLIAI_API_KEY="使用者自己的-key"
 
 1. 判断任务是文生图还是参考图编辑。
 2. 将用户需求整理为明确提示词，保留用户给出的文字、构图、比例和风格约束。
-3. 默认使用 `firefly-gpt-image-2`；只有用户指定其他模型或默认模型不可用时才改用 `--model`。
+3. 默认使用 `firefly-gpt-image-2`；只有用户指定其他 Junliai 模型或默认模型不可用时才改用 `--model`。
 4. 执行脚本并将最终图片保存到当前项目内。
 5. 使用可用的图片查看工具检查主体、构图、文字准确性和明显瑕疵。
 6. 如果结果不符合要求，只针对最明显的问题修改提示词并重试。
