@@ -21,7 +21,13 @@
 
 `npx skills` 是 Vercel Labs 的跨 Agent 技能安装工具。它支持从 GitHub 仓库根目录发现 `SKILL.md`，因此可以直接安装本仓库。
 
-当前版本的 `skills` CLI 要求 Node.js `>=22.20.0`：
+当前版本的 `skills` CLI 要求 Node.js `>=22.20.0`。安装到所有已识别的 Agent：
+
+```bash
+npx skills add ljunn/imagegen-junliai -g -a '*' -y
+```
+
+其中 `-g` 表示全局安装，`-a '*'` 表示安装到 CLI 支持并检测到的所有 Agent。只安装到 Codex 时才使用 `-a codex`：
 
 ```bash
 npx skills add ljunn/imagegen-junliai -g -a codex -y
@@ -42,7 +48,7 @@ npx skills update imagegen-junliai -g -y
 关闭匿名遥测：
 
 ```bash
-DISABLE_TELEMETRY=1 npx skills add ljunn/imagegen-junliai -g -a codex -y
+DISABLE_TELEMETRY=1 npx skills add ljunn/imagegen-junliai -g -a '*' -y
 ```
 
 ### 手动安装到 Codex
